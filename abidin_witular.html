@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <p class="text-2xl md:text-3xl font-semibold mb-4">Test Coding</p>
+
+        <div class="mb-6">
+            <label for="inputPertama" class="block text-lg md:text-xl font-medium mb-2">Input Text:</label>
+            <div class="relative">
+                <input type="text" id="inputPertama"
+                    class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 transition duration-300 text-base md:text-lg"
+                    placeholder="Masukkan teks...">
+                <i class="fas fa-pencil-alt absolute left-3 top-5 text-gray-400"></i>
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <button id="submitBtn"
+                class="w-full bg-yellow-400 text-white p-3 rounded-lg hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition duration-300 text-base md:text-lg flex items-center justify-center">
+                <i class="fas fa-paper-plane mr-2"></i> Kirim
+            </button>
+        </div>
+
+        <div class="mb-6">
+            <p class="text-lg md:text-xl font-medium">Soal pertama:</p>
+            <div id="output1" class="bg-white p-4 border border-gray-300 rounded-lg mt-2 text-sm md:text-base"></div>
+        </div>
+
+        <div class="mb-6">
+            <p class="text-lg md:text-xl font-medium">Soal kedua:</p>
+            <div id="output2" class="bg-white p-4 border border-gray-300 rounded-lg mt-2 text-sm md:text-base"></div>
+        </div>
+
+        <div class="mb-6">
+            <p class="text-lg md:text-xl font-medium">Soal ketiga:</p>
+            <div id="output3" class="bg-white p-4 border border-gray-300 rounded-lg mt-2 text-sm md:text-base"></div>
+        </div>
+
+        <div class="mb-6">
+            <p class="text-lg md:text-xl font-medium">Soal keempat:</p>
+            <div id="output4" class="bg-white p-4 border border-gray-300 rounded-lg mt-2 text-sm md:text-base"></div>
+        </div>
+
+        <div>
+            <p class="text-lg md:text-xl font-medium">Soal kelima:</p>
+            <div id="output5" class="bg-white p-4 border border-gray-300 rounded-lg mt-2 text-sm md:text-base"></div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+<script>
+    const kamus = {
+        '0': ['A', 'v', 'w', 'x', 'y', 'z', ' '],
+        '1': ['B', 'C', 'D', 'u'],
+        '2': ['E', 'p', 'r', 's', 't'],
+        '3': ['F', 'G', 'H', 'o'],
+        '4': ['I', 'j', 'k', 'l', 'm', 'n'],
+        '5': ['J', 'K', 'L', 'M', 'N', 'i'],
+        '6': ['O', 'f', 'g', 'h'],
+        '7': ['P', 'Q', 'R', 'S', 'T', 'e'],
+        '8': ['U', 'b', 'c', 'd'],
+        '9': ['V', 'W', 'X', 'Y', 'Z', 'a'],
+    };
+
+    let inputState = '';
+    const Inputdata = document.getElementById("inputPertama");
+    const submitBtn = document.getElementById("submitBtn");
+    const outputSoal1 = document.getElementById("output1");
+    const outputSoal2 = document.getElementById("output2");
+    const outputSoal3 = document.getElementById("output3");
+    const outputSoal4 = document.getElementById("output4");
+    const outputSoal5 = document.getElementById("output5");
+
+    Inputdata.addEventListener("input", function (event) {
+        inputState = event.target.value;
+    });
+
+    submitBtn.addEventListener("click", function () {
+        const hasil1 = prosesInput(inputState);
+        outputSoal1.textContent = hasil1;
+
+        const hasil2 = perhitunganSoal2(hasil1);
+        outputSoal2.textContent = hasil2;
+
+        const hasil3 = perhitunganSoal3(hasil2);
+        outputSoal3.textContent = hasil3;
+
+        const hasil4 = perhitunganSoal4(hasil3);
+        outputSoal4.textContent = hasil4;
+
+        const hasil5 = perhitunganSoal5(hasil4);
+        outputSoal5.textContent = hasil5;
+    });
+
+    function prosesInput(input) {
+        let hasil1 = '';
+        for (let i = 0; i < input.length; i++) {
+            let char = input[i];
+            for (let key in kamus) {
+                if (kamus[key].includes(char)) {
+                    hasil1 += key;
+                    break;
+                }
+            }
+        }
+        return hasil1;
+    }
+
+    function perhitunganSoal2(hasil1) {
+        let hasil2 = parseInt(hasil1.charAt(0));
+        for (let i = 1; i < hasil1.length; i++) {
+            let angka = parseInt(hasil1.charAt(i));
+            if (i % 2 === 1) {
+                hasil2 += angka;
+            } else {
+                hasil2 -= angka;
+            }
+        }
+        return hasil2;
+    }
+
+    function perhitunganSoal3(hasil2) {
+        let hasil3 = "";
+        let jumlah = 0;
+
+        if (hasil2 < 0) {
+            hasil2 = Math.abs(hasil2);
+        }
+
+        for (let i = 0; jumlah + i < hasil2; i++) {
+            if (i > 0) {
+                hasil3 += "+";
+            }
+            hasil3 += i;
+            jumlah += i;
+        }
+
+        if (hasil2 - jumlah > 0) {
+            const selisih = hasil2 - jumlah;
+            for (let i = 0; i < selisih; i++) {
+                hasil3 += "+";
+                hasil3 += "0+1";
+            }
+        }
+
+        let totalHasil3 = hasil3.split("+");
+        let hurufconvert = totalHasil3.map((item) => {
+            if (kamus[item]) {
+                return kamus[item][0];
+            }
+            return " ";
+        });
+
+        return hurufconvert.join("");
+    }
+
+    function perhitunganSoal4(hasil3) {
+        let convertangka = "";
+        let converthuruf = "";
+        let hasil4 = "";
+
+        for (let i = 0; i < hasil3.length; i++) {
+            let char = hasil3[i];
+            for (let key in kamus) {
+                if (kamus[key].includes(char)) {
+                    convertangka += key;
+                    break;
+                }
+            }
+        }
+
+
+        if (convertangka.endsWith("01")) {
+            let tempResult = (parseInt(convertangka) + 11).toString();
+            hasil4 = tempResult.padStart(convertangka.length, "0");
+        }
+
+        for (let i = 0; i < hasil4.length; i++) {
+            let num = hasil4[i];
+            if (kamus[num]) {
+                converthuruf += kamus[num][0];
+            } else {
+                converthuruf += " ";
+            }
+        }
+
+        return converthuruf;
+    }
+
+    function perhitunganSoal5(hasil4) {
+        let hasil5 = "";
+        let angka = [];
+
+        for (let i = 0; i < hasil4.length; i++) {
+            let char = hasil4[i];
+            for (let key in kamus) {
+                if (kamus[key].includes(char)) {
+                    angka.push(parseInt(key));
+                    break;
+                }
+            }
+        }
+
+        for (let i = 0; i < angka.length; i++) {
+            if (angka[i] % 2 === 0) {
+                angka[i] += 1;
+            }
+        }
+
+        return angka.join('');
+    }
+</script>
